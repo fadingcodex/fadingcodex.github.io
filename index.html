@@ -5,78 +5,226 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>code for the fading suns</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%F0%9F%AA%90%3C/text%3E%3C/svg%3E">
+    <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%F0%9F%AA%90%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
     <style>
+        :root {
+            --bg: #121317;
+            --surface: #26282e;
+            --surface-strong: #1a1c21;
+            --text: #d3d2d0;
+            --muted: #7b5a3a;
+            --accent: #d1a446;
+            --accent-soft: #b6812b;
+            --border: #5c4c35;
+            --success: #79b889;
+            --shadow: rgba(0, 0, 0, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: monospace, sans-serif;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: grey;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top, rgba(209, 164, 70, 0.14), transparent 30%),
+                linear-gradient(180deg, #161820 0%, var(--bg) 35%, #0e0f13 100%);
+            color: var(--text);
         }
 
         header {
-            background-color: black;
-            color: white;
+            background: linear-gradient(180deg, rgba(38, 40, 46, 0.96), rgba(18, 19, 23, 0.92));
             text-align: center;
-            padding: 1em 0;
-            color: white;
-            text-decoration: line-through
+            padding: 2.5rem 1.25rem 2rem;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 18px 45px var(--shadow);
+        }
+
+        .headertext {
+            margin: 0;
+            color: var(--text);
+            font-size: clamp(2rem, 4vw, 3.4rem);
+            letter-spacing: 0.12em;
+            text-transform: lowercase;
+            text-decoration: line-through;
+            text-decoration-color: var(--accent-soft);
+            text-decoration-thickness: 2px;
+        }
+
+        .tagline {
+            margin: 0.9rem 0 1.35rem;
+            color: var(--muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-size: 0.88rem;
+        }
+
+        .social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .social a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.75rem;
+            height: 2.75rem;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background-color: rgba(38, 40, 46, 0.78);
+            color: var(--text);
+            font-size: 1.15rem;
+            transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .social a:hover,
+        .social a:focus-visible {
+            color: var(--accent);
+            border-color: var(--accent);
+            background-color: var(--surface-strong);
+            transform: translateY(-2px);
+            outline: none;
         }
 
         footer {
-            background-color: #333;
-            color: white;
+            background-color: rgba(38, 40, 46, 0.92);
+            color: var(--muted);
             text-align: center;
-            padding: 0.2em 0;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
+            padding: 1rem;
+            border-top: 1px solid var(--border);
         }
 
         .container {
             display: flex;
             flex-wrap: wrap;
-            padding: 0.5em;
-            overflow: auto;
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 1rem 2rem;
+            align-items: stretch;
         }
 
         .column {
-            background-color: #f4f4f4;
-            border-radius: 10px;
-            padding: 1em;
-            margin: 0.5em;
-            height: 600px;
+            background: linear-gradient(180deg, rgba(38, 40, 46, 0.96), rgba(26, 28, 33, 0.96));
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1.2rem;
+            min-height: 600px;
+            box-shadow: 0 18px 38px var(--shadow);
         }
 
         .newsbox {
-            background-color: black;
-            color: white;
-            border-radius: 10px;
-            padding: 1em;
-            margin: 0.5em;
+            background: linear-gradient(180deg, rgba(18, 19, 23, 0.98), rgba(38, 40, 46, 0.98));
+            color: var(--text);
+            border: 1px solid rgba(209, 164, 70, 0.22);
+            border-radius: 14px;
+            padding: 1rem;
+            margin-top: 0.9rem;
         }
 
         .newsheader {
-            color: aliceblue;
-            text-shadow: 5px 5px blue;
+            margin: 0 0 0.4rem;
+            color: var(--accent);
+            text-transform: lowercase;
+            letter-spacing: 0.06em;
+        }
+
+        .newsheader.is-struck {
+            text-decoration: line-through;
+            text-decoration-color: var(--muted);
+            text-decoration-thickness: 2px;
+        }
+
+        .newsbox p:last-child {
+            margin-bottom: 0;
+        }
+
+        .column p,
+        footer p {
+            line-height: 1.6;
         }
 
         .left,
         .right {
-            flex: 1;
+            flex: 1 1 240px;
         }
 
         .center {
-            flex: 2;
+            flex: 2 1 360px;
+        }
+
+        .left p:first-child,
+        .center p:first-child,
+        .right p:first-child {
+            margin-top: 0;
+            color: var(--accent);
+            font-size: 1.05rem;
+            letter-spacing: 0.05em;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:focus-visible {
+            color: var(--text);
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid var(--border);
+            margin: 1.25rem 0;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            display: block;
+            box-shadow: 0 14px 30px var(--shadow);
+        }
+
+        .portal {
+            margin: 1rem 0;
         }
 
         @media (max-width: 768px) {
+            header {
+                padding-top: 2rem;
+            }
+
             .left {
                 display: none;
             }
 
             .center,
             .right {
-                flex: 1;
+                flex: 1 1 100%;
+            }
+
+            .container {
+                padding: 1rem 0.85rem 1.5rem;
+            }
+
+            .column {
+                min-height: auto;
+            }
+
+            .social {
+                gap: 0.75rem;
             }
         }
     </style>
@@ -85,6 +233,13 @@
 <body>
     <header>
         <h1 class="headertext">code for the fading suns</h1>
+        <p class="tagline">weird signals carried through the dark</p>
+        <ul class="social" aria-label="social media links">
+            <li><a href="https://bsky.app/profile/ashergblanco.bsky.social" aria-label="Bluesky"><i class="fa-brands fa-bluesky"></i></a></li>
+            <li><a href="https://dotnet.social/@beelzenef" aria-label="Mastodon"><i class="fa-brands fa-mastodon"></i></a></li>
+            <li><a href="https://github.com/Beelzenef" aria-label="GitHub"><i class="fa-brands fa-github"></i></a></li>
+            <li><a href="https://www.linkedin.com/in/elena-guzman-blanco" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a></li>
+        </ul>
     </header>
     <div class="container">
         <div class="column left">
@@ -95,48 +250,49 @@
             <p>still hope</p>
             <p>but suns are fading</p>
             <hr />
-            <p><a href="https://www.youtube.com/playlist?list=PLz3IIrEL4x8HH_WfGTLPH_Mz67-C5VVYs"></a>
-                <iframe width="350" height="250"
-                    src="https://www.youtube.com/embed/videoseries?si=xcPMwZqWrJb3Mp4t&amp;list=PLz3IIrEL4x8HH_WfGTLPH_Mz67-C5VVYs"
-                    title="audiovisualis
-                    contentus" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            </p>
-            <p><a href="https://github.com/orgs/zelonware/repositories">codex</a></p>
+            <p><a href="https://github.com/orgs/fadingcodex/repositories">codex</a></p>
         </div>
         <div class="column center">
-            <p>news on zelonware</p>
+            <p>words, and codex, and words...</p>
             <div class="newsbox">
-                <p class="newsheader">starting with flutter</p>
-                <p>an awesome crossplatform development experience</p>
+                <p class="newsheader"><a href="https://github.com/fadingcodex/fading_ui">your UI is fading too</a></p>
+                <p>now we are shifting... into something else</p>
+            </div>
+            
+            <div class="newsbox">
+                <p class="newsheader"><a href="https://github.com/fadingcodex/anydoctorhere">anydoctorhere?!?!?</a></p>
+                <p>somebody might need some help, I guess...</p>
             </div>
             <div class="newsbox">
-                <p class="newsheader">crossing a new gate</p>
+                <p class="newsheader is-struck">crossing a new gate</p>
                 <p>leaving XAML behind</p>
             </div>
             <div class="newsbox">
-                <p class="newsheader">lost in space</p>
+                <p class="newsheader"><a href="https://github.com/fadingcodex/workshop_flutter">workshop</a></p>
+                <p>learning... by teaching!</p>
+            </div>
+            <div class="newsbox">
+                <p class="newsheader is-struck">lost in space</p>
                 <p>no code to go</p>
             </div>
             <div class="newsbox">
-                <p class="newsheader">waves are gone</p>
+                <p class="newsheader is-struck">waves are gone</p>
                 <p>why nobody cares?</p>
             </div>
         </div>
         <div class="column right">
-            <p>new to zelonware?</p>
+            <p>not ready yet?</p>
             <p>be not afraid</p>
-            <div>
+            <div class="portal">
                 <img src="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExZXczcHNlcnc1d3doNmVpNGU1M2hqanQyc3A4cWozcTV1ODNyNHZmNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xUOxeV9ul4TnrTw82k/giphy.gif"
-                    alt="Space portal GIF" width="350px">
+                    alt="Space portal GIF" width="350">
             </div>
             <p>the gate is open</p>
             <p>just jump</p>
         </div>
     </div>
     <footer>
-        <p>made with ☕ by elenadotnet</p>
+        <p>made with ☕ by asher</p>
     </footer>
 </body>
 
